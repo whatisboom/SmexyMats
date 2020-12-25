@@ -18,13 +18,32 @@ local shiftDown = nil;
 
 function SmexyMats:OnInitialize()
 	SmexyMats:RegisterChatCommand("sm", "ChatCommand");
-	if (SmexyMatsDB.profile == nil) or not (SmexyMatsDB.profile) then SmexyMatsDB.profile = SmexyMats.defaults.profile; end;
+	if (SmexyMatsDB.profile == nil) or not (SmexyMatsDB.profile) then 
+		SmexyMatsDB.profile = SmexyMats.defaults.profile; 
+	end;
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("SmexyMats", SmexyMats.options);
 	AceConfig:AddToBlizOptions("SmexyMats", "SmexyMats(Retail)");
 	local tooltipMethodHooks = {
-		SetCurrencyToken = { nil, Hook_SetCurrencyToken },
-		SetRecipeResultItem = { function(self, recipeID) if recipeID then storedLink = C_TradeSkillUI.GetRecipeItemLink(recipeID) end end, nil},
-		SetRecipeReagentItem = { function(self, recipeID, reagentIndex) if recipeID and reagentIndex then storedLink = C_TradeSkillUI.GetRecipeReagentItemLink(recipeID, reagentIndex) end end, nil },
+		SetCurrencyToken = { 	
+			nil, 
+			Hook_SetCurrencyToken,
+		},
+		SetRecipeResultItem = { 
+			function(self, recipeID) 
+				if recipeID then 
+					storedLink = C_TradeSkillUI.GetRecipeItemLink(recipeID) 
+				end;
+			end, 
+			nil,
+		},
+		SetRecipeReagentItem = {	
+			function(self, recipeID, reagentIndex) 
+				if recipeID and reagentIndex then 
+					storedLink = C_TradeSkillUI.GetRecipeReagentItemLink(recipeID, reagentIndex) 
+				end;
+			end, 
+			nil, 
+		},
 	};
 	for m, hooks in pairs(tooltipMethodHooks) do
 		InstallHook(GameTooltip, m, hooks[1], hooks[2]);
@@ -51,9 +70,13 @@ end;
 
 function GetItemProperties(item)
 	local retObj = {}; 
-	if not item then return; end;
+	if not item then 
+		return; 
+	end;
 	retObj.aa, retObj.bb, retObj.cc, retObj.dd, retObj.ee, retObj.ff, retObj.gg, retObj.hh, retObj.ii, retObj.jj, retObj.kk, retObj.ll, retObj.mm, retObj.nn, retObj.oo, retObj.pp = GetItemInfo(item);
-	if retObj.bb then retObj.ID = GetIDFromLink(retObj.bb); end;
+	if retObj.bb then 
+		retObj.ID = GetIDFromLink(retObj.bb); 
+	end;
 	return retObj;
 end;
 
@@ -196,14 +219,17 @@ end;
 
 function ProcessTooltip(tt, obj)
 	local ItemInfoCached, r, g, b = true, .9, .8, .5;
-	if not obj.ID then ItemInfoCached = false; end;
+	if not obj.ID then 
+		ItemInfoCached = false; 
+	end;
 	if (obj.ID == 0) and (TradeSkillFrame ~= nil) and TradeSkillFrame:IsVisible() then
 		if (GetMouseFocus():GetName()) == "TradeSkillSkillIcon" then
 			obj.ID = tonumber(GetTradeSkillItemLink(TradeSkillFrame.selectedSkill):match("item:(%d+):")) or nil
 		else
 			for i = 1, 8 do
 				if (GetMouseFocus():GetName()) == "TradeSkillReagent"..i then
-					obj.ID = tonumber(GetTradeSkillReagentItemLink(TradeSkillFrame.selectedSkill, i):match("item:(%d+):")) or nil; break;
+					obj.ID = tonumber(GetTradeSkillReagentItemLink(TradeSkillFrame.selectedSkill, i):match("item:(%d+):")) or nil; 
+					break;
 				end;
 			end;
 		end;
@@ -310,11 +336,18 @@ function ProcessTooltip(tt, obj)
 	local FAH = nil;
 	local proString = "";
 	local appRealm = false;
+	
 	if (IsShiftKeyDown()) then
-		if isTooltipDone then isTooltipDone = false; end;
-		tt:AddLine(" ",0,0,0);		
+		if isTooltipDone then 
+			isTooltipDone = false; 
+		end;
+		tt:AddLine(" ",0,0,0);	
 		for proRealm, _ in pairs(SmexyMatsDB.ProTree) do
-			if (SmexyMatsDB.profile.AllRealms == true) then if (proRealm ~= RealmName) then appRealm = true; end; else if (proRealm ~= RealmName) then do break end; end; end;
+			if(SmexyMatsDB.profile.AllRealms == false) then
+				if(proRealm ~= RealmName) then
+					do break; end;
+				end;
+			end;
 			for proFaction, _ in pairs(SmexyMatsDB.ProTree[proRealm]) do
 				FAH = "["..string.sub(proFaction, 1, 1).."]";
 				for proProf, _ in pairs(SmexyMatsDB.ProTree[proRealm][proFaction]) do
@@ -326,18 +359,10 @@ function ProcessTooltip(tt, obj)
 						end;
 						for proToon, _ in pairs(SmexyMatsDB.ProTree[proRealm][proFaction][proProf]) do
 							if (proString == "") then
-								if appRealm then
-									proString = SmexyMats:trim(proToon)..FAH.."-"..proRealm..'\r\n';
-								else
-									proString = SmexyMats:trim(proToon)..FAH..'\r\n';
-								end;
+								proString = SmexyMats:trim(proToon)..FAH.."-"..proRealm..'\r\n';
 							end;
 							if not (string.match(proString, SmexyMats:trim(proToon))) then
-								if appRealm then
-									proString = proString .. SmexyMats:trim(proToon)..FAH.."-"..proRealm..'\r\n';
-								else
-									proString = proString .. SmexyMats:trim(proToon)..FAH..'\r\n';
-								end;
+								proString = proString .. SmexyMats:trim(proToon)..FAH.."-"..proRealm..'\r\n';
 							end;
 						end;
 						if (SmexyMatsDB.profile.IsColorBlind) then
@@ -354,8 +379,12 @@ function ProcessTooltip(tt, obj)
 end;
 
 function ExamineObject(obj)
-	if not obj then return false; end; 
-	if (not obj.aa) or (obj.aa == "") or (not obj.bb) or (not obj.ID) or (obj.ID == 0) then return false; end; 
+	if not obj then 
+		return false; 
+	end; 
+	if (not obj.aa) or (obj.aa == "") or (not obj.bb) or (not obj.ID) or (obj.ID == 0) then 
+		return false; 
+	end; 
 	return true;
 end;
 
