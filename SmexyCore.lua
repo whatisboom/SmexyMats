@@ -345,7 +345,7 @@ function ProcessTooltip(tt, obj)
 		for proRealm, _ in pairs(SmexyMatsDB.ProTree) do
 			if(SmexyMatsDB.profile.AllRealms == false) then
 				if(proRealm ~= RealmName) then
-					do break; end;
+					do break end;
 				end;
 			end;
 			for proFaction, _ in pairs(SmexyMatsDB.ProTree[proRealm]) do
