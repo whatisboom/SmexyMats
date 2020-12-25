@@ -131,7 +131,7 @@ function SmexyMats:GetExPack(obj)
 end;
 
 function SmexyMats:TRADE_SKILL_SHOW()
-	--print("SmexyMats: Caching TradeSkills...");
+	print("SmexyMats: Caching TradeSkills...");
 	SmexyMats:CacheProfessions();
 	--C_Timer.After(5, SmexyMats:AutoCache());
 end;
@@ -351,31 +351,42 @@ function ProcessTooltip(tt, obj)
 			for proFaction, _ in pairs(SmexyMatsDB.ProTree[proRealm]) do
 				FAH = "["..string.sub(proFaction, 1, 1).."]";
 				for proProf, _ in pairs(SmexyMatsDB.ProTree[proRealm][proFaction]) do
-					if (string.match(ProFor, SmexyMats:trim(proProf))) then
-						if (SmexyMatsDB.profile.IsColorBlind) then
-							tt:AddDoubleLine(CBOne .. proProf, "",r,b,g,0,0,0,true);
-						else
-							tt:AddDoubleLine(SmexyMats.Colors.wowtoken .. proProf, "",r,b,g,0,0,0,true);
-						end;
-						for proToon, _ in pairs(SmexyMatsDB.ProTree[proRealm][proFaction][proProf]) do
-							if (proString == "") then
-								proString = SmexyMats:trim(proToon)..FAH.."-"..proRealm..'\r\n';
+					local tblLen = SmexyMats:TableLength(SmexyMatsDB.ProTree[proRealm][proFaction][proProf])
+					if (tblLen > 0) then
+						if (string.match(ProFor, SmexyMats:trim(proProf))) then
+							if (SmexyMatsDB.profile.IsColorBlind) then
+								tt:AddDoubleLine(CBOne .. proProf, "",r,b,g,0,0,0,true);
+							else
+								tt:AddDoubleLine(SmexyMats.Colors.wowtoken .. proProf, "",r,b,g,0,0,0,true);
 							end;
-							if not (string.match(proString, SmexyMats:trim(proToon))) then
-								proString = proString .. SmexyMats:trim(proToon)..FAH.."-"..proRealm..'\r\n';
+							for proToon, _ in pairs(SmexyMatsDB.ProTree[proRealm][proFaction][proProf]) do
+								if (proString == "") then
+									proString = SmexyMats:trim(proToon)..FAH.."-"..proRealm..'\r\n';
+								end;
+								if not (string.match(proString, SmexyMats:trim(proToon))) then
+									proString = proString .. SmexyMats:trim(proToon)..FAH.."-"..proRealm..'\r\n';
+								end;
 							end;
+							if (SmexyMatsDB.profile.IsColorBlind) then
+								tt:AddLine(CBTwo .. proString,0,0,0,true);
+							else
+								tt:AddLine(SmexyMats.Colors.white .. proString,0,0,0,true);
+							end;
+							proString = "";
 						end;
-						if (SmexyMatsDB.profile.IsColorBlind) then
-							tt:AddLine(CBTwo .. proString,0,0,0,true);
-						else
-							tt:AddLine(SmexyMats.Colors.white .. proString,0,0,0,true);
-						end;
-						proString = "";
 					end;
 				end;
 			end;
 		end;
 	end;
+end;
+
+function SmexyMats:TableLength(T)
+	local count = 0;
+	for _ in pairs(T) do 
+		count = count + 1; 
+	end;
+	return count;
 end;
 
 function ExamineObject(obj)
