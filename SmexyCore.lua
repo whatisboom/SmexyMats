@@ -49,8 +49,10 @@ function SmexyMats:OnInitialize()
 		InstallHook(GameTooltip, m, hooks[1], hooks[2]);
 	end;
 	if (SmexyMats:CheckDB() == true) then
-		SmexyMats:HookTooltips(); 
-		print(SmexyMats.Colors.wowtoken .. name,SmexyMats.Colors.legendary .. version,L["|rLoad Complete!"]);
+		SmexyMats:HookTooltips();
+		if (SmexyMatsDB.profile.SMMsg == true) then
+			print(SmexyMats.Colors.wowtoken .. name,SmexyMats.Colors.legendary .. version,L["|rLoad Complete!"]);
+		end;
 	else
 		print(SmexyMats.Colors.wowtoken .. name,SmexyMats.Colors.legendary .. version,SmexyMats.Colors.DeathKnight .. L["Failed! |rMissing Data-Tables. Reinstall SemxyMats(SM) to correct this issue or report the error to https://mods.curse.com/addons/wow/270824-smexymats"]);
 	end;
@@ -98,7 +100,7 @@ function SmexyMats:ChatCommand()
 end;
 
 function JustTheTip(tooltip, ...)
-	tooltip:SetBackdropColor(0,0,0);
+	--tooltip:SetBackdropColor(0,0,0);
 	tooltip:Show();
 end;
 
@@ -131,7 +133,9 @@ function SmexyMats:GetExPack(obj)
 end;
 
 function SmexyMats:TRADE_SKILL_SHOW()
-	print("SmexyMats: Caching TradeSkills...");
+	if (SmexyMatsDB.profile.SMMsg == true) then
+		print("SmexyMats: Caching TradeSkills...");
+	end;
 	SmexyMats:CacheProfessions();
 	--C_Timer.After(5, SmexyMats:AutoCache());
 end;

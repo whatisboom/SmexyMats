@@ -14,6 +14,15 @@ SmexyMats.options = {
 			set = function(info, v) SmexyMatsDB.profile.Enabled = v; end,
 			order = 1
 		},
+		SMMsg = {
+			type = "toggle",
+			name = "Show SM chat messages.",
+			desc = "Show SM chat messages.",
+			width = "full",
+			get = function(info) return SmexyMatsDB.profile.SMMsg; end,
+			set = function(info, v) SmexyMatsDB.profile.SMMsg = v; end,
+			order = 2
+		},
 		SMText = {
 			type = "toggle",
 			name = "Show [SM] Text",
@@ -21,7 +30,7 @@ SmexyMats.options = {
 			width = "full",
 			get = function(info) return SmexyMatsDB.profile.SMText; end,
 			set = function(info, v) SmexyMatsDB.profile.SMText = v; end,
-			order = 2
+			order = 3
 		},
 		Contents = {
 			type = "toggle",
@@ -30,7 +39,7 @@ SmexyMats.options = {
 			width = "full",
 			get = function(info) return SmexyMatsDB.profile.Contents; end,
 			set = function(info, v) SmexyMatsDB.profile.Contents = v; end,
-			order = 3
+			order = 4
 		},
 		Sources = {
 			type = "toggle",
@@ -39,7 +48,7 @@ SmexyMats.options = {
 			width = "full",
 			get = function(info) return SmexyMatsDB.profile.Sources; end,
 			set = function(info, v) SmexyMatsDB.profile.Sources = v; end,
-			order = 4
+			order = 5
 		},
 		Professions = {
 			type = "toggle",
@@ -48,7 +57,7 @@ SmexyMats.options = {
 			width = "full",
 			get = function(info) return SmexyMatsDB.profile.Professions; end,
 			set = function(info, v) SmexyMatsDB.profile.Professions = v; end,
-			order = 5
+			order = 6
 		},
 		ItemIDs = {
 			type = "toggle",
@@ -57,7 +66,7 @@ SmexyMats.options = {
 			width = "full",
 			get = function(info) return SmexyMatsDB.profile.ItemIDs; end,
 			set = function(info, v) SmexyMatsDB.profile.ItemIDs = v; end,
-			order = 6
+			order = 7
 		},
 		ErrorReporting = {
 			type = "toggle",
@@ -66,7 +75,7 @@ SmexyMats.options = {
 			width = "full",
 			get = function(info) return SmexyMatsDB.profile.ErrorReporting; end,
 			set = function(info, v) SmexyMatsDB.profile.ErrorReporting = v; end,
-			order = 7
+			order = 8
 		},
 		AllRealms = {
 			type = "toggle",
@@ -75,7 +84,7 @@ SmexyMats.options = {
 			width = "full",
 			get = function(info) return SmexyMatsDB.profile.AllRealms; end,
 			set = function(info, v) SmexyMatsDB.profile.AllRealms = v; end,
-			order = 8
+			order = 9,
 		},
 		ClearDB = {
 			type = "execute",
@@ -86,18 +95,18 @@ SmexyMats.options = {
 				SmexyMatsDB["ProTree"] = nil;
 				print("SmexyMats Alt DB has been cleared");
 			end,
-			order = 9,
+			order = 10,
 		},
 		Section2 = {
 			type = "header",
 			name = "Custom Expack Colors",
-			order = 10,
+			order = 11,
 		},
 		
 		Section3 = {
 			type = "header",
 			name = "Colorblind Options",
-			order = 10,
+			order = 12,
 		},
 		
 		IsColorBlind = {
@@ -105,7 +114,7 @@ SmexyMats.options = {
 			name = "Colorblind mode",
 			get = function(info) return SmexyMatsDB.profile.IsColorBlind; end,
 			set = function(info, v) SmexyMatsDB.profile.IsColorBlind = v; end,
-			order = 11,
+			order = 13,
 		},
 		ColorBlindPickedOne = {
 			type = "color",
@@ -132,7 +141,7 @@ SmexyMats.options = {
 			get = function(info) 
 					return SmexyMatsDB.profile.cbOneR, SmexyMatsDB.profile.cbOneG, SmexyMatsDB.profile.cbOneB;
 				end,
-			order = 12,	
+			order = 14,	
 		},
 		ColorBlindPickedTwo = {
 			type = "color",
@@ -159,12 +168,12 @@ SmexyMats.options = {
 			get = function(info) 
 					return SmexyMatsDB.profile.cbTwoR, SmexyMatsDB.profile.cbTwoG, SmexyMatsDB.profile.cbTwoB;
 				end,
-			order = 13,	
+			order = 15,	
 		},
 		Section3 = {
 			type = "header",
 			name = "Synopsis",
-			order = 15,
+			order = 16,
 		},
 		Synopsis = {
 			type = "description",
@@ -181,23 +190,23 @@ SmexyMats.options = {
 					"\r\n" .. 
 					"More coming soon, I'm always updating... Enjoy!",
 			fontSize = "medium",
-			order = 16,
+			order = 17,
 		},
 		Section4 = {
 			type = "header",
 			name = "Commands",
-			order = 17,
+			order = 18,
 		},
 		CMDs = {
 			type = "description",
 			name = "/sm : Brings up this window.",
 			fontSize = "medium",
-			order = 18,
+			order = 19,
 		},
 		Section4 = {
 			type = "header",
 			name = "Author",
-			order = 19,
+			order = 20,
 		},
 		About = {
 			type = "description",
@@ -208,7 +217,7 @@ SmexyMats.options = {
 					"|cFFFF8000SmexyScaleUI(SSUI)\r\n" ..  
 					"|cFFFF8000SmexyGMO(SGMO)",
 			fontSize = "medium",
-			order = 20,
+			order = 21,
 		},
 	},
 };

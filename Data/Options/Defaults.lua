@@ -3,6 +3,7 @@
 SmexyMats.defaults = {
 	profile = {
 		Enabled = true,
+		SMMsg = false,
 		SMText = true,
 		Contents = true,
 		Sources = true,
