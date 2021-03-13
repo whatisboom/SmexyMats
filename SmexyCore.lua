@@ -276,7 +276,7 @@ function SmexyMats:ProcessTooltip(tt, obj)
 	--tt:AddLine(" ",0,0,0);
 	if (SmexyMatsDB.profile.Contents == true) then 
 		if EP ~= nil then
-			if(SmexyMatsDB.profile.IconsEnabled) then
+			if(SmexyMatsDB.profile.ExpackIconsEnabled) then
 				local t = {};
 				t[ #t+1 ] = "|T"
 				t[ #t+1 ] = SmexyMats.ExPacks[EP].icon

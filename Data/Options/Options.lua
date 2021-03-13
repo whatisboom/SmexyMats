@@ -174,7 +174,7 @@ SmexyMats.options = {
 		
 		IconsEnabled = {
 			type = "toggle",
-			name = "Enable",
+			name = "Enable Profession Icons",
 			desc = "Replaced SmexyMats Text with Icons",
 			width = "full",
 			get = function(info) return SmexyMatsDB.profile.IconsEnabled; end,
@@ -182,11 +182,21 @@ SmexyMats.options = {
 			order = 17,
 		},
 		
+		ExpackIconsEnabled = {
+			type = "toggle",
+			name = "Enable Expack Icons",
+			desc = "Replaced SmexyMats Text with Icons",
+			width = "full",
+			get = function(info) return SmexyMatsDB.profile.ExpackIconsEnabled; end,
+			set = function(info, v) SmexyMatsDB.profile.ExpackIconsEnabled = v; end,
+			order = 18,
+		},
+		
 		IconDescription = {
 			type = "description",
 			name = "Set Icon Size (Recommended: 20)",
 			fontSize = "medium",
-			order = 18,
+			order = 19,
 		},
 		
 		IconScaleDown = {
@@ -200,7 +210,7 @@ SmexyMats.options = {
 				end;
 				SmexyMatsDB.profile.TooltipIconSize = (tonumber(SmexyMatsDB.profile.TooltipIconSize) - 1)
 			end,
-			order = 19,
+			order = 20,
 		},
 		
 		IconScaleUp = {
@@ -214,7 +224,7 @@ SmexyMats.options = {
 				end;
 				SmexyMatsDB.profile.TooltipIconSize = (tonumber(SmexyMatsDB.profile.TooltipIconSize) + 1)
 			end,
-			order = 19,
+			order = 20,
 		},
 		
 		CurrentUI = {
@@ -228,14 +238,14 @@ SmexyMats.options = {
 			end,
 			width = "full",
 			fontSize = "large",
-			order = 20,
+			order = 21,
 		},
 		
 		ExpackDescription = {
 			type = "description",
 			name = "Set Expack Size (Recommended: 50)",
 			fontSize = "medium",
-			order = 21,
+			order = 22,
 		},
 		
 		ExpackScaleDown = {
@@ -249,7 +259,7 @@ SmexyMats.options = {
 				end;
 				SmexyMatsDB.profile.TooltipExpackSize = (tonumber(SmexyMatsDB.profile.TooltipExpackSize) - 1)
 			end,
-			order = 22,
+			order = 23,
 		},
 		
 		ExpackScaleUp = {
@@ -263,7 +273,7 @@ SmexyMats.options = {
 				end;
 				SmexyMatsDB.profile.TooltipExpackSize = (tonumber(SmexyMatsDB.profile.TooltipExpackSize) + 1)
 			end,
-			order = 22,
+			order = 23,
 		},
 		
 		CurrentExpackUI = {
@@ -277,13 +287,13 @@ SmexyMats.options = {
 			end,
 			width = "full",
 			fontSize = "large",
-			order = 23,
+			order = 24,
 		},
 		
 		VisualSection = {
 			type = "header",
 			name = "Visual",
-			order = 24,
+			order = 25,
 		},
 		
 		IconRecommend = {
@@ -317,13 +327,13 @@ SmexyMats.options = {
 					
 			width = "full",
 			fontSize = "large",
-			order = 25,
+			order = 26,
 		},
 		
 		Section5 = {
 			type = "header",
 			name = "Synopsis",
-			order = 26,
+			order = 27,
 		},
 		
 		Synopsis = {
@@ -341,23 +351,23 @@ SmexyMats.options = {
 					"\r\n" .. 
 					"More coming soon, I'm always updating... Enjoy!",
 			fontSize = "medium",
-			order = 27,
+			order = 28,
 		},
 		Section4 = {
 			type = "header",
 			name = "Commands",
-			order = 28,
+			order = 29,
 		},
 		CMDs = {
 			type = "description",
 			name = "/sm : Brings up this window.",
 			fontSize = "medium",
-			order = 29,
+			order = 30,
 		},
 		Section4 = {
 			type = "header",
 			name = "Author",
-			order = 30,
+			order = 31,
 		},
 		About = {
 			type = "description",
@@ -370,7 +380,7 @@ SmexyMats.options = {
 					"CREDITS: I do not own any of the images for the icons. " ..
 					"I got expansion icons from wow.gamepedia.com and I got the profession icons from in-game resources.",
 			fontSize = "medium",
-			order = 31,
+			order = 32,
 		},
 	},
 };

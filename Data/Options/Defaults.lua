@@ -12,6 +12,7 @@ SmexyMats.defaults = {
 		ErrorReporting = true,
 		AllRealms = true,
 		IconsEnabled = true,
+		ExpackIconsEnabled = true,
 		SM_EP_One_Title = "|cFF00CCFF",
 		SM_EP_One_Text = "|cFFFFFF00",
 		IsColorBlind = false,
