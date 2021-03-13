@@ -10,11 +10,12 @@ if SmexyMatsAuto == nil then SmexyMatsAuto = {}; end;
 local L = LibStub("AceLocale-3.0"):GetLocale("SmexyMats");
 local AceConfig = LibStub("AceConfigDialog-3.0");
 local name = "SmexyMats(Retail)";
-local version = "v9.0.2";
+local version = "v9.0.5";
 local isTooltipDone = nil;
 local storedLink = nil;
 local LID = nil;
 local shiftDown = nil;
+local btn_TS_Cache = nil;
 
 function SmexyMats:OnInitialize()
 	SmexyMats:RegisterChatCommand("sm", "ChatCommand");
@@ -46,7 +47,7 @@ function SmexyMats:OnInitialize()
 		},
 	};
 	for m, hooks in pairs(tooltipMethodHooks) do
-		InstallHook(GameTooltip, m, hooks[1], hooks[2]);
+		SmexyMats:InstallHook(GameTooltip, m, hooks[1], hooks[2]);
 	end;
 	if (SmexyMats:CheckDB() == true) then
 		SmexyMats:HookTooltips();
@@ -54,12 +55,13 @@ function SmexyMats:OnInitialize()
 			print(SmexyMats.Colors.wowtoken .. name,SmexyMats.Colors.legendary .. version,L["|rLoad Complete!"]);
 		end;
 	else
-		print(SmexyMats.Colors.wowtoken .. name,SmexyMats.Colors.legendary .. version,SmexyMats.Colors.DeathKnight .. L["Failed! |rMissing Data-Tables. Reinstall SemxyMats(SM) to correct this issue or report the error to https://mods.curse.com/addons/wow/270824-smexymats"]);
+		if (SmexyMatsDB.profile.SMMsg == true) then
+			print(SmexyMats.Colors.wowtoken .. name,SmexyMats.Colors.legendary .. version,SmexyMats.Colors.DeathKnight .. L["Failed! |rMissing Data-Tables. Reinstall SemxyMats(SM) to correct this issue or report the error to https://mods.curse.com/addons/wow/270824-smexymats"]);
+		end;
 	end;
-	SmexyMats:CacheProfessions();
 end;	
 
-function InstallHook(tooltip, method, prehook, posthook)
+function SmexyMats:InstallHook(tooltip, method, prehook, posthook)
 	local orig = tooltip[method];
 	local stub = function(...)
 		if prehook then prehook(...); end;
@@ -70,20 +72,19 @@ function InstallHook(tooltip, method, prehook, posthook)
 	tooltip[method] = stub;
 end;
 
-function GetItemProperties(item)
+function SmexyMats:GetItemProperties(item)
 	local retObj = {}; 
-	if not item then 
+	if not item then
 		return; 
 	end;
 	retObj.aa, retObj.bb, retObj.cc, retObj.dd, retObj.ee, retObj.ff, retObj.gg, retObj.hh, retObj.ii, retObj.jj, retObj.kk, retObj.ll, retObj.mm, retObj.nn, retObj.oo, retObj.pp = GetItemInfo(item);
 	if retObj.bb then 
-		retObj.ID = GetIDFromLink(retObj.bb); 
+		retObj.ID = SmexyMats:GetIDFromLink(retObj.bb);
 	end;
 	return retObj;
 end;
 
 function SmexyMats:HookTooltips()
-	--Install all of the hooks...
 	SmexyMats:RegisterEvent("TRADE_SKILL_SHOW");
 	GameTooltip:HookScript("OnShow", JustTheTip);
 	GameTooltip:HookScript("OnTooltipCleared", function(self) isTooltipDone = nil; end);
@@ -99,68 +100,7 @@ function SmexyMats:ChatCommand()
 	InterfaceOptionsFrame_OpenToCategory("SmexyMats(Retail)");
 end;
 
-function JustTheTip(tooltip, ...)
-	--tooltip:SetBackdropColor(0,0,0);
-	tooltip:Show();
-end;
-
-function GetIDFromLink(link)
-	if link then
-		local linktype, id = string.match(link, "|H([^:]+):(%d+)");
-		if id then return tonumber(id); else return 0; end;
-	end;
-end;
-
-function SmexyMats:CheckDB()
-	if not (SmexyMats.Sources) then return false; end;
-	if not (SmexyMats.Reagents) then return false; end;
-	if not (SmexyMats.Drop) then return false; end;
-	if not (SmexyMats.Vendor) then return false; end;
-	if not (SmexyMats.Scrap) then return false; end;
-	return true;
-end;
-
-function SmexyMats:GetExPack(obj)
-	if (obj.aa == nil) or (obj.aa == '') or (string.len(obj.aa) < 1) then 
-		return -1, SmexyMats.ExPacks[-1].color; 
-	end;
-
-	if (SmexyMatsDB.profile.Equipment == true) and (SmexyMatsDB.profile.Contents == true) then 
-		local X, Y = SmexyMats:Gear_ExpackID(obj); 
-		if (X ~= -1) then return X, Y; end; 
-	end;
-	return -1, SmexyMats.ExPacks[-1].color;
-end;
-
 function SmexyMats:TRADE_SKILL_SHOW()
-	if (SmexyMatsDB.profile.SMMsg == true) then
-		print("SmexyMats: Caching TradeSkills...");
-	end;
-	SmexyMats:CacheProfessions();
-	--C_Timer.After(5, SmexyMats:AutoCache());
-end;
-
---[[
-function SmexyMats:AutoCache()
-	
-	print("SmexyMats: AutoCaching TradeSkills...");
-	
-	if not (SmexyMatsAuto["MasterListing"]) then SmexyMatsAuto["MasterListing"] = {}; end;
-	if not (SmexyMatsAuto["MasterListing"]["ReagentIDs"]) then SmexyMatsAuto["MasterListing"]["ReagentIDs"] = {}; end;
-	if not (SmexyMatsAuto["MasterListing"]["RecipeIDs"]) then SmexyMatsAuto["MasterListing"]["RecipeIDs"] = {}; end;
-	
-	
-	for _, val in (C_TradeSkillUI.GetAllRecipeIDs()) do
-		if not (SmexyMatsAuto["MasterListing"]["RecipeIDs"][val]) then
-			print("Indexing RecipeID: "..val);
-			SmexyMatsAuto["MasterListing"]["RecipeIDs"][val] = {};
-		end;
-	end;
-	print("done");
-end;
-]]--
-
-function SmexyMats:CacheProfessions()
 	local RealmName = GetRealmName();
 	local FactionName = UnitFactionGroup("player");
 	local CharacterName = UnitName("player");
@@ -218,10 +158,45 @@ function SmexyMats:CacheProfessions()
 			end;
 		end;
 	end;
-	
 end;
 
-function ProcessTooltip(tt, obj)
+function JustTheTip(tooltip, ...)
+	tooltip:Show();
+end;
+
+function SmexyMats:GetIDFromLink(link)
+	if link then
+		local id = link:match("item:(%d+):");
+		if id then 
+			return tonumber(id); 
+		else 
+			return 0; 
+		end;
+	end;
+end;
+
+function SmexyMats:CheckDB()
+	if not (SmexyMats.Sources) then return false; end;
+	if not (SmexyMats.Reagents) then return false; end;
+	if not (SmexyMats.Drop) then return false; end;
+	if not (SmexyMats.Vendor) then return false; end;
+	if not (SmexyMats.Scrap) then return false; end;
+	return true;
+end;
+
+function SmexyMats:GetExPack(obj)
+	if (obj.aa == nil) or (obj.aa == '') or (string.len(obj.aa) < 1) then 
+		return -1, SmexyMats.ExPacks[-1].color; 
+	end;
+
+	if (SmexyMatsDB.profile.Equipment == true) and (SmexyMatsDB.profile.Contents == true) then 
+		local X, Y = SmexyMats:Gear_ExpackID(obj); 
+		if (X ~= -1) then return X, Y; end; 
+	end;
+	return -1, SmexyMats.ExPacks[-1].color;
+end;
+
+function SmexyMats:ProcessTooltip(tt, obj)
 	local ItemInfoCached, r, g, b = true, .9, .8, .5;
 	if not obj.ID then 
 		ItemInfoCached = false; 
@@ -264,7 +239,8 @@ function ProcessTooltip(tt, obj)
 	local ProFor, ProFrom, EP;
 	
 	if (SmexyMats:Gear_ExpackID(obj)) == true then
-		qwe, EP = SmexyMats:Gear_ExpackID(obj); ProFor, ProFrom = SmexyMats:FormatToolTipString(obj.ID);
+		qwe, EP = SmexyMats:Gear_ExpackID(obj); 
+		ProFor, ProFrom = SmexyMats:FormatToolTipString(obj.ID);
 	else
 		ProFor, ProFrom, EP = SmexyMats:FormatToolTipString(obj.ID);
 	end;
@@ -284,27 +260,46 @@ function ProcessTooltip(tt, obj)
 	
 	local CBOne, CBTwo = "", "";
 	
-	if (SmexyMatsDB.profile.ColorBlindPickedOne ~= nil) then CBOne = tostring("|cFF" .. SmexyMatsDB.profile.ColorBlindPickedOne); else CBOne = "|cFFFFFFFF"; end;
-	if (SmexyMatsDB.profile.ColorBlindPickedTwo ~= nil) then CBTwo = tostring("|cFF" .. SmexyMatsDB.profile.ColorBlindPickedTwo); else CBTwo = "|cFFFFFFFF"; end;
+	if (SmexyMatsDB.profile.ColorBlindPickedOne ~= nil) then 
+		CBOne = tostring("|cFF" .. SmexyMatsDB.profile.ColorBlindPickedOne); 
+	else 
+		CBOne = "|cFFFFFFFF"; 
+	end;
+	if (SmexyMatsDB.profile.ColorBlindPickedTwo ~= nil) then 
+		CBTwo = tostring("|cFF" .. SmexyMatsDB.profile.ColorBlindPickedTwo); 
+	else 
+		CBTwo = "|cFFFFFFFF"; 
+	end;
 	
 	local EPC = nil;
 	
 	--tt:AddLine(" ",0,0,0);
 	if (SmexyMatsDB.profile.Contents == true) then 
 		if EP ~= nil then
-			if (SmexyMatsDB.profile.IsColorBlind == true) then
-				EPC = CBTwo .. SmexyMats.ExPacks[EP].name;
+			if(SmexyMatsDB.profile.IconsEnabled) then
+				local t = {};
+				t[ #t+1 ] = "|T"
+				t[ #t+1 ] = SmexyMats.ExPacks[EP].icon
+				t[ #t+1 ] = ":"
+				t[ #t+1 ] = SmexyMatsDB.profile.TooltipExpackSize
+				t[ #t+1 ] = "|t "
+				local tx = table.concat(t);
+				tt:AddLine(tx,0,0,0,true);
 			else
-				EPC = SmexyMats.ExPacks[EP].name;
-				if (EP == 7) then
-					EPC = L["|cFFFF0000Battle |cFFE6CC80for |cFF2E6FF2Azeroth"];
+				if (SmexyMatsDB.profile.IsColorBlind == true) then
+					EPC = CBTwo .. SmexyMats.ExPacks[EP].name;
+				else
+					EPC = SmexyMats.ExPacks[EP].name;
+					if (EP == 7) then
+						EPC = L["|cFFFF0000Battle |cFFE6CC80for |cFF2E6FF2Azeroth"];
+					end;
 				end;
-			end;
-		
-			if (SmexyMatsDB.profile.IsColorBlind) then
-				tt:AddLine(CBOne .. tttE .. EPC,0,0,0,true);
-			else
-				tt:AddLine(SmexyMats.Colors.wowtoken .. tttE .. SmexyMats.ExPacks[EP].color .. EPC,0,0,0,true);
+			
+				if (SmexyMatsDB.profile.IsColorBlind) then
+					tt:AddLine(CBOne .. tttE .. EPC,0,0,0,true);
+				else
+					tt:AddLine(SmexyMats.Colors.wowtoken .. tttE .. SmexyMats.ExPacks[EP].color .. EPC,0,0,0,true);
+				end;
 			end;
 		end; 
 	end;
@@ -313,7 +308,11 @@ function ProcessTooltip(tt, obj)
 			if (SmexyMatsDB.profile.IsColorBlind) then
 				tt:AddLine(CBOne .. tttS .. CBTwo .. ProFrom,0,0,0,true);
 			else
-				tt:AddLine(SmexyMats.Colors.wowtoken .. tttS .. SmexyMats.Colors.white .. ProFrom,0,0,0,true);
+				if(SmexyMatsDB.profile.IconsEnabled) then
+					tt:AddLine(SmexyMats.Colors.wowtoken .. tttS .. "\r\n\r\n" .. SmexyMats.Colors.white .. ProFrom,0,0,0,true);
+				else
+					tt:AddLine(SmexyMats.Colors.wowtoken .. tttS .. SmexyMats.Colors.white .. ProFrom,0,0,0,true);
+				end;
 			end;
 		end;
 	end;
@@ -322,7 +321,11 @@ function ProcessTooltip(tt, obj)
 			if (SmexyMatsDB.profile.IsColorBlind) then
 				tt:AddLine(CBOne .. tttP .. CBTwo .. ProFor,0,0,0,true);
 			else		
-				tt:AddLine(SmexyMats.Colors.wowtoken .. tttP .. SmexyMats.Colors.white .. ProFor,0,0,0,true);
+				if(SmexyMatsDB.profile.IconsEnabled) then
+					tt:AddLine(SmexyMats.Colors.wowtoken .. tttP.. "\r\n\r\n" .. SmexyMats.Colors.white .. ProFor,0,0,0,true);
+				else
+					tt:AddLine(SmexyMats.Colors.wowtoken .. tttP .. SmexyMats.Colors.white .. ProFor,0,0,0,true);
+				end;
 			end;
 		end;
 	end;
@@ -410,22 +413,24 @@ function SmexyMats.ModifyItemTooltip(tt, ...)
 	if (isTooltipDone == nil) and tt then
 		isTooltipDone = true;
 		name, link = tt:GetItem();
-		obj = GetItemProperties(link)
+		obj = SmexyMats:GetItemProperties(link)
 		if (ExamineObject(obj)) and (ExamineObject(obj)) then
 			itemAquired = true;
 		else
 			link = storedLink; 
-			obj = GetItemProperties(link);
+			obj = SmexyMats:GetItemProperties(link);
 			if (ExamineObject(obj) == true) and (ExamineObject(obj) == true) then 
 				itemAquired = true;
 			else
-				obj = GetItemProperties(objTXT);
+				obj = SmexyMats:GetItemProperties(objTXT);
 				if (ExamineObject(obj)) and (ExamineObject(obj)) then 
 					itemAquired = true; 
 				end;
 			end;
 		end;
-		if itemAquired then ProcessTooltip(tt, obj); end;
+		if itemAquired then 
+			SmexyMats:ProcessTooltip(tt, obj); 
+		end;
 	end;
 end;
 
@@ -440,7 +445,11 @@ function SmexyMats:FormatToolTipString(iID)
 			zForTTS = SmexyMats:trim(v); 
 		else
 			if not (string.match(zForTTS, SmexyMats:trim(v))) then
-				zForTTS = zForTTS .. ", " .. SmexyMats:trim(v); 
+				if(SmexyMatsDB.profile.IconsEnabled) then
+					zForTTS = zForTTS .. " " .. SmexyMats:trim(v); 
+				else
+					zForTTS = zForTTS .. ", " .. SmexyMats:trim(v); 
+				end;
 			end;
 		end;
 	end;
@@ -451,7 +460,11 @@ function SmexyMats:FormatToolTipString(iID)
 			zFromTTS = SmexyMats:trim(v); 
 		else 
 			if not(string.match(zFromTTS, SmexyMats:trim(v))) then
-				zFromTTS = zFromTTS .. ", " .. SmexyMats:trim(v); 
+				if(SmexyMatsDB.profile.IconsEnabled) then
+					zFromTTS = zFromTTS .. " " .. SmexyMats:trim(v); 
+				else
+					zFromTTS = zFromTTS .. ", " .. SmexyMats:trim(v); 
+				end;
 			end;
 		end;
 	end;
@@ -463,7 +476,6 @@ function SmexyMats:SearchDatabase(iID)
 	local xForTTL = {};
 	local xFromTTL = {};
 	local zz = nil;
-	local xpackfound, ypackfound = false, false;
 	
 	if not iID then return; end;
 	
@@ -474,25 +486,93 @@ function SmexyMats:SearchDatabase(iID)
 			--Loops through Sources
 			for k, v in pairs( SmexyMats.Sources[x][y] ) do 
 				if (tonumber(iID) == v) then
-					table.insert(xFromTTL, SmexyMats.Profs[x]);
-					if (zz == nil) then zz = y; end;
+					if(SmexyMatsDB.profile.IconsEnabled) then
+						local t = {};
+						t[ #t+1 ] = "|T"
+						t[ #t+1 ] = SmexyMats.Profs[x].spelltexture
+						t[ #t+1 ] = ":"
+						t[ #t+1 ] = SmexyMatsDB.profile.TooltipIconSize
+						t[ #t+1 ] = "|t "
+						local tx = table.concat(t);
+						table.insert(xFromTTL, tx);
+					else
+						table.insert(xFromTTL, SmexyMats.Profs[x].name);
+					end;
+					
+					zz = y;
 				end;
 			end;
 			--Loops through Reagents
 			for l, w in pairs( SmexyMats.Reagents[x][y] ) do 
 				if (tonumber(iID) == w) then
-					table.insert(xForTTL, SmexyMats.Profs[x]);
-					if (zz == nil) then zz = y; end;
+					if(SmexyMatsDB.profile.IconsEnabled) then
+						local t = {};
+						t[ #t+1 ] = "|T"
+						t[ #t+1 ] = SmexyMats.Profs[x].spelltexture
+						t[ #t+1 ] = ":"
+						t[ #t+1 ] = SmexyMatsDB.profile.TooltipIconSize
+						t[ #t+1 ] = "|t "
+						local tx = table.concat(t);
+						table.insert(xForTTL, tx);
+					else
+						table.insert(xForTTL, SmexyMats.Profs[x].name);
+					end;
+					zz = y;
 				end;
 			end;
 		end;
 	end;
 	--Loops through Vendor Mats
-	for _c, _d in pairs( SmexyMats.Vendor ) do if (tonumber(iID)) == _d then table.insert(xFromTTL, SmexyMats.Profs[-1]); end; end;
+	for _c, _d in pairs( SmexyMats.Vendor ) do 
+		if (tonumber(iID)) == _d then 
+			if(SmexyMatsDB.profile.IconsEnabled) then
+				local t = {};
+				t[ #t+1 ] = "|T"
+				t[ #t+1 ] = SmexyMats.Profs[-1].spelltexture
+				t[ #t+1 ] = ":"
+				t[ #t+1 ] = SmexyMatsDB.profile.TooltipIconSize
+				t[ #t+1 ] = "|t "
+				local tx = table.concat(t);
+				table.insert(xFromTTL, tx);
+			else
+				table.insert(xFromTTL, SmexyMats.Profs[-1].name);
+			end;
+		end; 
+	end;
 	--Loops through Drops
-	for _e, _f in pairs( SmexyMats.Drop ) do if (tonumber(iID)) == _f then table.insert(xFromTTL, SmexyMats.Profs[-2]); end; end;
+	for _e, _f in pairs( SmexyMats.Drop ) do 
+		if (tonumber(iID)) == _f then 
+			if(SmexyMatsDB.profile.IconsEnabled) then
+				local t = {};
+				t[ #t+1 ] = "|T"
+				t[ #t+1 ] = SmexyMats.Profs[-1].spelltexture
+				t[ #t+1 ] = ":"
+				t[ #t+1 ] = SmexyMatsDB.profile.TooltipIconSize
+				t[ #t+1 ] = "|t "
+				local tx = table.concat(t);
+				table.insert(xFromTTL, tx);
+			else
+				table.insert(xFromTTL, SmexyMats.Profs[-2].name);
+			end; 
+		end; 
+	end;
 	--Loops through Scraps
-	for _g, _h in pairs( SmexyMats.Scrap ) do if (tonumber(iID)) == _h then table.insert(xFromTTL, SmexyMats.Profs[-3]); end; end;
+	for _g, _h in pairs( SmexyMats.Scrap ) do 
+		if (tonumber(iID)) == _h then 
+			if(SmexyMatsDB.profile.IconsEnabled) then
+				local t = {};
+				t[ #t+1 ] = "|T"
+				t[ #t+1 ] = SmexyMats.Profs[-1].spelltexture
+				t[ #t+1 ] = ":"
+				t[ #t+1 ] = SmexyMatsDB.profile.TooltipIconSize
+				t[ #t+1 ] = "|t "
+				local tx = table.concat(t);
+				table.insert(xFromTTL, tx);
+			else
+				table.insert(xFromTTL, SmexyMats.Profs[-3].name);
+			end;
+		end; 
+	end;
 	--Returns Results
 	return xForTTL, xFromTTL, zz;
 end;

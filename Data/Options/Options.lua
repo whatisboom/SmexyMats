@@ -97,11 +97,6 @@ SmexyMats.options = {
 			end,
 			order = 10,
 		},
-		Section2 = {
-			type = "header",
-			name = "Custom Expack Colors",
-			order = 11,
-		},
 		
 		Section3 = {
 			type = "header",
@@ -170,11 +165,167 @@ SmexyMats.options = {
 				end,
 			order = 15,	
 		},
-		Section3 = {
+		
+		IconSection = {
 			type = "header",
-			name = "Synopsis",
+			name = "Icon Option",
 			order = 16,
 		},
+		
+		IconsEnabled = {
+			type = "toggle",
+			name = "Enable",
+			desc = "Replaced SmexyMats Text with Icons",
+			width = "full",
+			get = function(info) return SmexyMatsDB.profile.IconsEnabled; end,
+			set = function(info, v) SmexyMatsDB.profile.IconsEnabled = v; end,
+			order = 17,
+		},
+		
+		IconDescription = {
+			type = "description",
+			name = "Set Icon Size (Recommended: 20)",
+			fontSize = "medium",
+			order = 18,
+		},
+		
+		IconScaleDown = {
+			type = "execute",
+			width = "half",
+			name = "<<",
+			desc = "Changes the UI scale of the icons by -1",
+			func = function(info) 
+				if (SmexyMatsDB.profile.TooltipIconSize == nil) then
+					SmexyMatsDB.profile.TooltipIconSize = 25;
+				end;
+				SmexyMatsDB.profile.TooltipIconSize = (tonumber(SmexyMatsDB.profile.TooltipIconSize) - 1)
+			end,
+			order = 19,
+		},
+		
+		IconScaleUp = {
+			type = "execute",
+			width = "half",
+			name = ">>",
+			desc = "Changes the UI scale of the icons by +1",
+			func = function(info) 
+				if (SmexyMatsDB.profile.TooltipIconSize == nil) then
+					SmexyMatsDB.profile.TooltipIconSize = 25;
+				end;
+				SmexyMatsDB.profile.TooltipIconSize = (tonumber(SmexyMatsDB.profile.TooltipIconSize) + 1)
+			end,
+			order = 19,
+		},
+		
+		CurrentUI = {
+			type = "description",
+			name = function(info) 
+				if (SmexyMatsDB.profile.TooltipIconSize == nil) then 
+					return "Not Set"
+				else 
+					return "       " .. tostring(tonumber(SmexyMatsDB.profile.TooltipIconSize))
+				end
+			end,
+			width = "full",
+			fontSize = "large",
+			order = 20,
+		},
+		
+		ExpackDescription = {
+			type = "description",
+			name = "Set Expack Size (Recommended: 50)",
+			fontSize = "medium",
+			order = 21,
+		},
+		
+		ExpackScaleDown = {
+			type = "execute",
+			width = "half",
+			name = "<<",
+			desc = "Changes the UI scale of the expack icon by -1",
+			func = function(info) 
+				if (SmexyMatsDB.profile.TooltipExpackSize == nil) then
+					SmexyMatsDB.profile.TooltipExpackSize = 64;
+				end;
+				SmexyMatsDB.profile.TooltipExpackSize = (tonumber(SmexyMatsDB.profile.TooltipExpackSize) - 1)
+			end,
+			order = 22,
+		},
+		
+		ExpackScaleUp = {
+			type = "execute",
+			width = "half",
+			name = ">>",
+			desc = "Changes the UI scale of the expack icons by +1",
+			func = function(info) 
+				if (SmexyMatsDB.profile.TooltipExpackSize == nil) then
+					SmexyMatsDB.profile.TooltipExpackSize = 64;
+				end;
+				SmexyMatsDB.profile.TooltipExpackSize = (tonumber(SmexyMatsDB.profile.TooltipExpackSize) + 1)
+			end,
+			order = 22,
+		},
+		
+		CurrentExpackUI = {
+			type = "description",
+			name = function(info) 
+				if (SmexyMatsDB.profile.TooltipExpackSize == nil) then 
+					return "Not Set"
+				else 
+					return "       " .. tostring(tonumber(SmexyMatsDB.profile.TooltipExpackSize))
+				end
+			end,
+			width = "full",
+			fontSize = "large",
+			order = 23,
+		},
+		
+		VisualSection = {
+			type = "header",
+			name = "Visual",
+			order = 24,
+		},
+		
+		IconRecommend = {
+			type = "description",
+			name =  SmexyMats.Profs[-3].icon() .." " .. SmexyMats.Profs[-3].name .. "\r\n" ..
+					SmexyMats.Profs[-2].icon() .." " .. SmexyMats.Profs[-2].name .. "\r\n" ..
+					SmexyMats.Profs[-1].icon() .." " .. SmexyMats.Profs[-1].name .. "\r\n" ..
+					SmexyMats.Profs[1].icon() .." " .. SmexyMats.Profs[1].name .. "\r\n" ..
+					SmexyMats.Profs[2].icon() .." " .. SmexyMats.Profs[2].name .. "\r\n" ..
+					SmexyMats.Profs[3].icon() .." " .. SmexyMats.Profs[3].name .. "\r\n" ..
+					SmexyMats.Profs[4].icon() .." " .. SmexyMats.Profs[4].name .. "\r\n" ..
+					SmexyMats.Profs[5].icon() .." " .. SmexyMats.Profs[5].name .. "\r\n" ..
+					SmexyMats.Profs[6].icon() .." " .. SmexyMats.Profs[6].name .. "\r\n" ..
+					SmexyMats.Profs[7].icon() .." " .. SmexyMats.Profs[7].name .. "\r\n" ..
+					SmexyMats.Profs[8].icon() .." " .. SmexyMats.Profs[8].name .. "\r\n" ..
+					SmexyMats.Profs[9].icon() .." " .. SmexyMats.Profs[9].name .. "\r\n" ..
+					SmexyMats.Profs[10].icon() .." " .. SmexyMats.Profs[10].name .. "\r\n" ..
+					SmexyMats.Profs[11].icon() .." " .. SmexyMats.Profs[11].name .. "\r\n" ..
+					SmexyMats.Profs[12].icon() .." " .. SmexyMats.Profs[12].name .. "\r\n" ..
+					SmexyMats.Profs[13].icon() .." " .. SmexyMats.Profs[13].name .. "\r\n" ..
+					SmexyMats.Profs[14].icon() .." " .. SmexyMats.Profs[14].name .. "\r\n\r\n" ..
+					SmexyMats.ExPacks[0].geticon() ..
+					SmexyMats.ExPacks[1].geticon() ..
+					SmexyMats.ExPacks[2].geticon() .. "\r\n" ..
+					SmexyMats.ExPacks[3].geticon() .. 
+					SmexyMats.ExPacks[4].geticon() .. 
+					SmexyMats.ExPacks[5].geticon() .. "\r\n" ..
+					SmexyMats.ExPacks[6].geticon() .. 
+					SmexyMats.ExPacks[7].geticon() .. 
+					SmexyMats.ExPacks[8].geticon() .. "\r\n",
+					
+			width = "full",
+			fontSize = "large",
+			order = 25,
+		},
+		
+		Section5 = {
+			type = "header",
+			name = "Synopsis",
+			order = 26,
+		},
+		
 		Synopsis = {
 			type = "description",
 			name = "Tooltip notation addon.\r\n\r\n" .. 
@@ -190,23 +341,23 @@ SmexyMats.options = {
 					"\r\n" .. 
 					"More coming soon, I'm always updating... Enjoy!",
 			fontSize = "medium",
-			order = 17,
+			order = 27,
 		},
 		Section4 = {
 			type = "header",
 			name = "Commands",
-			order = 18,
+			order = 28,
 		},
 		CMDs = {
 			type = "description",
 			name = "/sm : Brings up this window.",
 			fontSize = "medium",
-			order = 19,
+			order = 29,
 		},
 		Section4 = {
 			type = "header",
 			name = "Author",
-			order = 20,
+			order = 30,
 		},
 		About = {
 			type = "description",
@@ -215,9 +366,11 @@ SmexyMats.options = {
 					"|rCheck out my other addons:\r\n" ..
 					"|cFFFF8000SmexyMats(Classic)\r\n" ..
 					"|cFFFF8000SmexyScaleUI(SSUI)\r\n" ..  
-					"|cFFFF8000SmexyGMO(SGMO)",
+					"|cFFFF8000SmexyGMO(SGMO)\r\n\r\n" ..
+					"CREDITS: I do not own any of the images for the icons. " ..
+					"I got expansion icons from wow.gamepedia.com and I got the profession icons from in-game resources.",
 			fontSize = "medium",
-			order = 21,
+			order = 31,
 		},
 	},
 };
