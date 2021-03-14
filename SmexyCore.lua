@@ -6,7 +6,6 @@
 --local pairs, tonumber, print, string, table, _G = pairs, tonumber, print, string, table, _G;
 SmexyMats = LibStub("AceAddon-3.0"):NewAddon("SmexyMats", "AceEvent-3.0", "AceConsole-3.0");
 if SmexyMatsDB == nil then SmexyMatsDB = {}; end;
-if SmexyMatsAuto == nil then SmexyMatsAuto = {}; end;
 local L = LibStub("AceLocale-3.0"):GetLocale("SmexyMats");
 local AceConfig = LibStub("AceConfigDialog-3.0");
 local name = "SmexyMats(Retail)";
@@ -22,6 +21,10 @@ function SmexyMats:OnInitialize()
 	if (SmexyMatsDB.profile == nil) or not (SmexyMatsDB.profile) then 
 		SmexyMatsDB.profile = SmexyMats.defaults.profile; 
 	end;
+	
+	if(SmexyMatsDB.profile.TooltipIconSize == nil) then SmexyMatsDB.profile.TooltipIconSize = 20; end;
+	if(SmexyMatsDB.profile.TooltipIconSize == nil) then SmexyMatsDB.profile.TooltipExpackSize = 50; end;
+	
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("SmexyMats", SmexyMats.options);
 	AceConfig:AddToBlizOptions("SmexyMats", "SmexyMats(Retail)");
 	local tooltipMethodHooks = {
@@ -261,7 +264,6 @@ function SmexyMats:ProcessTooltip(tt, obj)
 	
 	local EPC = nil;
 	
-	--tt:AddLine(" ",0,0,0);
 	if (SmexyMatsDB.profile.Contents == true) then 
 		if EP ~= nil then
 			if(SmexyMatsDB.profile.ExpackIconsEnabled) then
@@ -340,61 +342,63 @@ function SmexyMats:ProcessTooltip(tt, obj)
 		else
 			tt:AddLine(SmexyMats.Colors.artifact .. "ALTS",0,0,0,true);
 		end;
-		for pro, _ in pairs(SmexyMatsDB.ProTree) do
-			if (ProFor) and (AltFor) then
-				if (string.match(ProFor, SmexyMats:trim(pro))) or (string.match(AltFor, SmexyMats:trim(pro))) then
-					if(SmexyMatsDB.profile.IconsEnabled) then
-						local arrProfIDs = {-3,-2,-1,1,2,3,4,5,6,7,8,9,10,11,12,13,14}
-						local pID;
-						for _, j in pairs(arrProfIDs) do
-							if (pro == SmexyMats.Profs[j].name) then
-								pID = j;
-								do break end;
+		if (SmexyMatsDB.ProTree) then
+			for pro, _ in pairs(SmexyMatsDB.ProTree) do
+				if (ProFor) and (AltFor) then
+					if (string.match(ProFor, SmexyMats:trim(pro))) or (string.match(AltFor, SmexyMats:trim(pro))) then
+						if(SmexyMatsDB.profile.IconsEnabled) then
+							local arrProfIDs = {-3,-2,-1,1,2,3,4,5,6,7,8,9,10,11,12,13,14}
+							local pID;
+							for _, j in pairs(arrProfIDs) do
+								if (pro == SmexyMats.Profs[j].name) then
+									pID = j;
+									do break end;
+								end;
+							end;
+							local t = {};
+							t[ #t+1 ] = "|T"; 
+							t[ #t+1 ] = SmexyMats.Profs[pID].spelltexture; 
+							t[ #t+1 ] = ":"; 
+							t[ #t+1 ] = SmexyMatsDB.profile.TooltipIconSize; 
+							t[ #t+1 ] = "|t ";
+							local AltProIcon = table.concat(t);
+							tt:AddLine("\r\n"..AltProIcon,0,0,0,true);
+						else
+							if (SmexyMatsDB.profile.IsColorBlind) then
+								tt:AddDoubleLine(CBOne .. pro, "",r,b,g,0,0,0,true);
+							else
+								tt:AddDoubleLine(SmexyMats.Colors.wowtoken .. pro, "",r,b,g,0,0,0,true);
 							end;
 						end;
-						local t = {};
-						t[ #t+1 ] = "|T"; 
-						t[ #t+1 ] = SmexyMats.Profs[pID].spelltexture; 
-						t[ #t+1 ] = ":"; 
-						t[ #t+1 ] = SmexyMatsDB.profile.TooltipIconSize; 
-						t[ #t+1 ] = "|t ";
-						local AltProIcon = table.concat(t);
-						tt:AddLine("\r\n"..AltProIcon,0,0,0,true);
-					else
-						if (SmexyMatsDB.profile.IsColorBlind) then
-							tt:AddDoubleLine(CBOne .. pro, "",r,b,g,0,0,0,true);
-						else
-							tt:AddDoubleLine(SmexyMats.Colors.wowtoken .. pro, "",r,b,g,0,0,0,true);
-						end;
-					end;
-					for fac, _ in pairs (SmexyMatsDB.ProTree[pro]) do
-						local strFAC = "["..string.sub(fac, 1, 1).."]";
-						for rel, _ in pairs (SmexyMatsDB.ProTree[pro][fac]) do
-							local tblLen = SmexyMats:TableLength(SmexyMatsDB.ProTree[pro][fac][rel])
-							if (tblLen > 0 ) then
-								for chr,_ in pairs(SmexyMatsDB.ProTree[pro][fac][rel]) do
-									if (proString == "") then
-										proString = SmexyMats:trim(chr)..strFAC.."-"..rel..'\r\n';
-									end;
-									if not (string.match(proString, SmexyMats:trim(chr))) then
-										proString = proString .. SmexyMats:trim(chr)..strFAC.."-"..rel..'\r\n';
-									end;
-									if(SmexyMatsDB.profile.AllRealms) then
-										if (SmexyMatsDB.profile.IsColorBlind) then
-											tt:AddLine(CBTwo .. proString,0,0,0,true);
-										else
-											tt:AddLine(SmexyMats.Colors.white .. proString,0,0,0,true);
+						for fac, _ in pairs (SmexyMatsDB.ProTree[pro]) do
+							local strFAC = "["..string.sub(fac, 1, 1).."]";
+							for rel, _ in pairs (SmexyMatsDB.ProTree[pro][fac]) do
+								local tblLen = SmexyMats:TableLength(SmexyMatsDB.ProTree[pro][fac][rel])
+								if (tblLen > 0 ) then
+									for chr,_ in pairs(SmexyMatsDB.ProTree[pro][fac][rel]) do
+										if (proString == "") then
+											proString = SmexyMats:trim(chr)..strFAC.."-"..rel..'\r\n';
 										end;
-									else
-										if(rel == RealmName) then								
+										if not (string.match(proString, SmexyMats:trim(chr))) then
+											proString = proString .. SmexyMats:trim(chr)..strFAC.."-"..rel..'\r\n';
+										end;
+										if(SmexyMatsDB.profile.AllRealms) then
 											if (SmexyMatsDB.profile.IsColorBlind) then
 												tt:AddLine(CBTwo .. proString,0,0,0,true);
 											else
 												tt:AddLine(SmexyMats.Colors.white .. proString,0,0,0,true);
 											end;
+										else
+											if(rel == RealmName) then								
+												if (SmexyMatsDB.profile.IsColorBlind) then
+													tt:AddLine(CBTwo .. proString,0,0,0,true);
+												else
+													tt:AddLine(SmexyMats.Colors.white .. proString,0,0,0,true);
+												end;
+											end;
 										end;
+										proString = "";
 									end;
-									proString = "";
 								end;
 							end;
 						end;

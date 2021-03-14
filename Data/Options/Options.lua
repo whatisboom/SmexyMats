@@ -88,22 +88,34 @@ SmexyMats.options = {
 		},
 		ClearDB = {
 			type = "execute",
-			name = "Clear Alt DB",
-			desc = "Clears the Alt DB for the shift-modifier. Use this if your shift-modifier is showing inaccurate information.",
+			name = "Clear Alt Database (Reloads UI after)",
+			desc = "Clears the Alt Database for the Alt-modifier (holding Alt while mousing over items). Use this if your Alt-modifier is showing inaccurate information.",
 			width = "double",
 			func = function()
 				SmexyMatsDB["ProTree"] = nil;
-				print("SmexyMats Alt DB has been cleared");
+				SmexyMatsDB["ProTree"] = {};
+				ReloadUI();
 			end,
 			order = 10,
 		},
-		
+		ResetSmexyMats = {
+			type = "execute",
+			name = "Reset SmexyMats (Reloads UI after)",
+			desc = "Recommended after SmexyMats updates to correct missing profile settings. This will reset your alt database (unfortunately).",
+			width = "double",
+			func = function()
+				SmexyMatsDB = nil;
+				SmexyMatsDB = {};
+				SmexyMatsDB.profile = SmexyMats.defaults.profile;
+				ReloadUI();
+			end,
+			order = 11,
+		},
 		Section3 = {
 			type = "header",
 			name = "Colorblind Options",
 			order = 12,
 		},
-		
 		IsColorBlind = {
 			type = "toggle",
 			name = "Colorblind mode",
@@ -165,13 +177,11 @@ SmexyMats.options = {
 				end,
 			order = 15,	
 		},
-		
 		IconSection = {
 			type = "header",
 			name = "Icon Option",
 			order = 16,
 		},
-		
 		IconsEnabled = {
 			type = "toggle",
 			name = "Enable Profession Icons",
@@ -181,7 +191,6 @@ SmexyMats.options = {
 			set = function(info, v) SmexyMatsDB.profile.IconsEnabled = v; end,
 			order = 17,
 		},
-		
 		ExpackIconsEnabled = {
 			type = "toggle",
 			name = "Enable Expack Icons",
@@ -191,14 +200,12 @@ SmexyMats.options = {
 			set = function(info, v) SmexyMatsDB.profile.ExpackIconsEnabled = v; end,
 			order = 18,
 		},
-		
 		IconDescription = {
 			type = "description",
 			name = "Set Icon Size (Recommended: 20)",
 			fontSize = "medium",
 			order = 19,
 		},
-		
 		IconScaleDown = {
 			type = "execute",
 			width = "half",
@@ -212,7 +219,6 @@ SmexyMats.options = {
 			end,
 			order = 20,
 		},
-		
 		IconScaleUp = {
 			type = "execute",
 			width = "half",
@@ -226,7 +232,6 @@ SmexyMats.options = {
 			end,
 			order = 20,
 		},
-		
 		CurrentUI = {
 			type = "description",
 			name = function(info) 
@@ -240,14 +245,12 @@ SmexyMats.options = {
 			fontSize = "large",
 			order = 21,
 		},
-		
 		ExpackDescription = {
 			type = "description",
 			name = "Set Expack Size (Recommended: 50)",
 			fontSize = "medium",
 			order = 22,
 		},
-		
 		ExpackScaleDown = {
 			type = "execute",
 			width = "half",
@@ -261,7 +264,6 @@ SmexyMats.options = {
 			end,
 			order = 23,
 		},
-		
 		ExpackScaleUp = {
 			type = "execute",
 			width = "half",
@@ -275,7 +277,6 @@ SmexyMats.options = {
 			end,
 			order = 23,
 		},
-		
 		CurrentExpackUI = {
 			type = "description",
 			name = function(info) 
@@ -289,13 +290,11 @@ SmexyMats.options = {
 			fontSize = "large",
 			order = 24,
 		},
-		
 		VisualSection = {
 			type = "header",
 			name = "Visual",
 			order = 25,
 		},
-		
 		IconRecommend = {
 			type = "description",
 			name =  SmexyMats.Profs[-3].icon() .." " .. SmexyMats.Profs[-3].name .. "\r\n" ..
@@ -329,27 +328,34 @@ SmexyMats.options = {
 			fontSize = "large",
 			order = 26,
 		},
-		
 		Section5 = {
 			type = "header",
 			name = "Synopsis",
 			order = 27,
 		},
-		
 		Synopsis = {
 			type = "description",
 			name = "Tooltip notation addon.\r\n\r\n" .. 
-					"Mouse over an item in your invetory, auction house, dungeon journal or click on a linked item.\r\n" .. 
+					"Mouse over an item in your inventory, auction house, dungeon journal or click on a linked item.\r\n" .. 
+					"Hold Alt while mousing over an item to see which Alt can use it.\r\n" ..
+					"Alt information is cached whenever you open the profession window.\r\n" ..
+					"\r\n" ..
 					"Crafting Reagents:\r\n" ..
 					"    Show source types.(Drop, Vendor, etc)\r\n" ..
 					"    Show professions that can use the reagent.\r\n" .. 
 					"    Show what Expansion its from.\r\n" .. 
+					"\r\n" ..
 					"Equipment:\r\n" .. 
 					"    Show what Expansion its from.\r\n" .. 
+					"\r\n" ..
 					"ItemID:\r\n" .. 
 					"    Show the item ID for that item.\r\n" .. 
-					"\r\n" .. 
-					"More coming soon, I'm always updating... Enjoy!",
+					"\r\n" ..
+					"All item information is gathered from Wowhead. Please consider using the Wowhead client\r\n" ..
+					"to help data mine for addons like this one.\r\n" ..
+					"https://www.wowhead.com/client\r\n" ..
+					"\r\n"..
+					"Thank you all for your feedback and suggestions!",
 			fontSize = "medium",
 			order = 28,
 		},
@@ -371,7 +377,7 @@ SmexyMats.options = {
 		},
 		About = {
 			type = "description",
-			name = SmexyMats.Colors.wowtoken .. "BattleTag & Discord: Lunixia#1737\r\n" ..
+			name = SmexyMats.Colors.wowtoken .. "BattleTag & Discord: LunixiaLIVE#1737\r\n" ..
 					"|cFFCC66FFTwitch: https://www.twitch.tv/LunixiaLIVE\r\n" ..
 					"|rCheck out my other addons:\r\n" ..
 					"|cFFFF8000SmexyMats(Classic)\r\n" ..
