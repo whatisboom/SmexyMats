@@ -106,57 +106,45 @@ function SmexyMats:TRADE_SKILL_SHOW()
 	local CharacterName = UnitName("player");
 	local ProTree = "ProTree";
 	
-	if not (SmexyMatsDB[ProTree]) or not (SmexyMatsDB.ProTree) then 
-		SmexyMatsDB[ProTree] = {}; 
-	end;
-	
-	if not (SmexyMatsDB[ProTree][RealmName]) then 
-		SmexyMatsDB[ProTree][RealmName] = {}; 
-	end;
-	
-	if not (SmexyMatsDB[ProTree][RealmName][FactionName]) then 
-		SmexyMatsDB[ProTree][RealmName][FactionName] = {}; 
-	end;
-	
 	local iPrimProA, iPrimProB, iPrimProC, iPrimProD, iPrimProE = GetProfessions();
 	local PrimProA, PrimProB, PrimProC, PrimProD, PrimProE = nil, nil, nil, nil, nil;
 	
+	if not (SmexyMatsDB[ProTree]) or not (SmexyMatsDB.ProTree) then SmexyMatsDB[ProTree] = {}; end;
+	
 	if (iPrimProA ~= nil) then 
 		PrimProA = GetProfessionInfo(iPrimProA);
-		if not (SmexyMatsDB[ProTree][RealmName][FactionName][PrimProA]) then SmexyMatsDB[ProTree][RealmName][FactionName][PrimProA] = {}; end;
-		if not (SmexyMatsDB[ProTree][RealmName][FactionName][PrimProA][CharacterName]) then SmexyMatsDB[ProTree][RealmName][FactionName][PrimProA][CharacterName] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProA]) then SmexyMatsDB[ProTree][PrimProA] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProA][FactionName]) then SmexyMatsDB[ProTree][PrimProA][FactionName] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProA][FactionName][RealmName]) then SmexyMatsDB[ProTree][PrimProA][FactionName][RealmName] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProA][FactionName][RealmName][CharacterName]) then SmexyMatsDB[ProTree][PrimProA][FactionName][RealmName][CharacterName] = {}; end;
 	end;
-	
 	if (iPrimProB ~= nil) then 
 		PrimProB = GetProfessionInfo(iPrimProB);
-		if not (SmexyMatsDB[ProTree][RealmName][FactionName][PrimProB]) then SmexyMatsDB[ProTree][RealmName][FactionName][PrimProB] = {}; end;
-		if not (SmexyMatsDB[ProTree][RealmName][FactionName][PrimProB][CharacterName]) then SmexyMatsDB[ProTree][RealmName][FactionName][PrimProB][CharacterName] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProB]) then SmexyMatsDB[ProTree][PrimProB] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProB][FactionName]) then SmexyMatsDB[ProTree][PrimProB][FactionName] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProB][FactionName][RealmName]) then SmexyMatsDB[ProTree][PrimProB][FactionName][RealmName] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProB][FactionName][RealmName][CharacterName]) then SmexyMatsDB[ProTree][PrimProB][FactionName][RealmName][CharacterName] = {}; end;
 	end;
-	
 	if (iPrimProC ~= nil) then 
 		PrimProC = GetProfessionInfo(iPrimProC);
-		if not (SmexyMatsDB[ProTree][RealmName][FactionName][PrimProC]) then SmexyMatsDB[ProTree][RealmName][FactionName][PrimProC] = {}; end;
-		if not (SmexyMatsDB[ProTree][RealmName][FactionName][PrimProC][CharacterName]) then SmexyMatsDB[ProTree][RealmName][FactionName][PrimProC][CharacterName] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProC]) then SmexyMatsDB[ProTree][PrimProC] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProC][FactionName]) then SmexyMatsDB[ProTree][PrimProC][FactionName] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProC][FactionName][RealmName]) then SmexyMatsDB[ProTree][PrimProC][FactionName][RealmName] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProC][FactionName][RealmName][CharacterName]) then SmexyMatsDB[ProTree][PrimProC][FactionName][RealmName][CharacterName] = {}; end;
 	end;
-	
 	if (iPrimProD ~= nil) then 
 		PrimProD = GetProfessionInfo(iPrimProD);
-		if not (SmexyMatsDB[ProTree][RealmName][FactionName][PrimProD]) then SmexyMatsDB[ProTree][RealmName][FactionName][PrimProD] = {}; end;
-		if not (SmexyMatsDB[ProTree][RealmName][FactionName][PrimProD][CharacterName]) then SmexyMatsDB[ProTree][RealmName][FactionName][PrimProD][CharacterName] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProD]) then SmexyMatsDB[ProTree][PrimProD] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProD][FactionName]) then SmexyMatsDB[ProTree][PrimProD][FactionName] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProD][FactionName][RealmName]) then SmexyMatsDB[ProTree][PrimProD][FactionName][RealmName] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProD][FactionName][RealmName][CharacterName]) then SmexyMatsDB[ProTree][PrimProD][FactionName][RealmName][CharacterName] = {}; end;
 	end;
-	
 	if (iPrimProE ~= nil) then 
 		PrimProE = GetProfessionInfo(iPrimProE);
-		if not(SmexyMatsDB[ProTree][RealmName][FactionName][PrimProE]) then SmexyMatsDB[ProTree][RealmName][FactionName][PrimProE] = {}; end;
-		if not (SmexyMatsDB[ProTree][RealmName][FactionName][PrimProE][CharacterName]) then SmexyMatsDB[ProTree][RealmName][FactionName][PrimProE][CharacterName] = {}; end;
-	end;
-	
-	for sm_pro, _ in pairs(SmexyMatsDB[ProTree][RealmName][FactionName]) do
-		if (sm_pro ~= PrimProA) and (sm_pro ~= PrimProB) and (sm_pro ~= PrimProC) and (sm_pro ~= PrimProD) and (sm_pro ~= PrimProE) then
-			if (SmexyMatsDB[ProTree][RealmName][FactionName][sm_pro][CharacterName]) then
-				SmexyMatsDB[ProTree][RealmName][FactionName][sm_pro][CharacterName] = nil;
-			end;
-		end;
+		if not (SmexyMatsDB[ProTree][PrimProE]) then SmexyMatsDB[ProTree][PrimProE] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProE][FactionName]) then SmexyMatsDB[ProTree][PrimProE][FactionName] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProE][FactionName][RealmName]) then SmexyMatsDB[ProTree][PrimProE][FactionName][RealmName] = {}; end;
+		if not (SmexyMatsDB[ProTree][PrimProE][FactionName][RealmName][CharacterName]) then SmexyMatsDB[ProTree][PrimProE][FactionName][RealmName][CharacterName] = {}; end;
 	end;
 end;
 
@@ -236,13 +224,13 @@ function SmexyMats:ProcessTooltip(tt, obj)
 		return;
 	end;
 	
-	local ProFor, ProFrom, EP;
+	local ProFor, ProFrom, EP, AltFor;
 	
 	if (SmexyMats:Gear_ExpackID(obj)) == true then
 		qwe, EP = SmexyMats:Gear_ExpackID(obj); 
 		ProFor, ProFrom = SmexyMats:FormatToolTipString(obj.ID);
 	else
-		ProFor, ProFrom, EP = SmexyMats:FormatToolTipString(obj.ID);
+		ProFor, ProFrom, EP, AltFor = SmexyMats:FormatToolTipString(obj.ID);
 	end;
 	
 	local tttE, tttS, tttP, tttI;
@@ -344,47 +332,77 @@ function SmexyMats:ProcessTooltip(tt, obj)
 	local proString = "";
 	local appRealm = false;
 	
-	if (IsShiftKeyDown()) then
-		if isTooltipDone then 
-			isTooltipDone = false; 
+	if (IsAltKeyDown()) then
+		if isTooltipDone then isTooltipDone = false; end;
+		tt:AddLine(" ",0,0,0);
+		if (SmexyMatsDB.profile.IsColorBlind) then
+			tt:AddLine(CBTwo .. "ALTS",0,0,0,true);
+		else
+			tt:AddLine(SmexyMats.Colors.artifact .. "ALTS",0,0,0,true);
 		end;
-		tt:AddLine(" ",0,0,0);	
-		for proRealm, _ in pairs(SmexyMatsDB.ProTree) do
-			if(SmexyMatsDB.profile.AllRealms == false) then
-				if(proRealm ~= RealmName) then
-					do break end;
-				end;
-			end;
-			for proFaction, _ in pairs(SmexyMatsDB.ProTree[proRealm]) do
-				FAH = "["..string.sub(proFaction, 1, 1).."]";
-				for proProf, _ in pairs(SmexyMatsDB.ProTree[proRealm][proFaction]) do
-					local tblLen = SmexyMats:TableLength(SmexyMatsDB.ProTree[proRealm][proFaction][proProf])
-					if (tblLen > 0) then
-						if (string.match(ProFor, SmexyMats:trim(proProf))) then
-							if (SmexyMatsDB.profile.IsColorBlind) then
-								tt:AddDoubleLine(CBOne .. proProf, "",r,b,g,0,0,0,true);
-							else
-								tt:AddDoubleLine(SmexyMats.Colors.wowtoken .. proProf, "",r,b,g,0,0,0,true);
+		for pro, _ in pairs(SmexyMatsDB.ProTree) do
+			if (ProFor) and (AltFor) then
+				if (string.match(ProFor, SmexyMats:trim(pro))) or (string.match(AltFor, SmexyMats:trim(pro))) then
+					if(SmexyMatsDB.profile.IconsEnabled) then
+						local arrProfIDs = {-3,-2,-1,1,2,3,4,5,6,7,8,9,10,11,12,13,14}
+						local pID;
+						for _, j in pairs(arrProfIDs) do
+							if (pro == SmexyMats.Profs[j].name) then
+								pID = j;
+								do break end;
 							end;
-							for proToon, _ in pairs(SmexyMatsDB.ProTree[proRealm][proFaction][proProf]) do
-								if (proString == "") then
-									proString = SmexyMats:trim(proToon)..FAH.."-"..proRealm..'\r\n';
+						end;
+						local t = {};
+						t[ #t+1 ] = "|T"; 
+						t[ #t+1 ] = SmexyMats.Profs[pID].spelltexture; 
+						t[ #t+1 ] = ":"; 
+						t[ #t+1 ] = SmexyMatsDB.profile.TooltipIconSize; 
+						t[ #t+1 ] = "|t ";
+						local AltProIcon = table.concat(t);
+						tt:AddLine("\r\n"..AltProIcon,0,0,0,true);
+					else
+						if (SmexyMatsDB.profile.IsColorBlind) then
+							tt:AddDoubleLine(CBOne .. pro, "",r,b,g,0,0,0,true);
+						else
+							tt:AddDoubleLine(SmexyMats.Colors.wowtoken .. pro, "",r,b,g,0,0,0,true);
+						end;
+					end;
+					for fac, _ in pairs (SmexyMatsDB.ProTree[pro]) do
+						local strFAC = "["..string.sub(fac, 1, 1).."]";
+						for rel, _ in pairs (SmexyMatsDB.ProTree[pro][fac]) do
+							local tblLen = SmexyMats:TableLength(SmexyMatsDB.ProTree[pro][fac][rel])
+							if (tblLen > 0 ) then
+								for chr,_ in pairs(SmexyMatsDB.ProTree[pro][fac][rel]) do
+									if (proString == "") then
+										proString = SmexyMats:trim(chr)..strFAC.."-"..rel..'\r\n';
+									end;
+									if not (string.match(proString, SmexyMats:trim(chr))) then
+										proString = proString .. SmexyMats:trim(chr)..strFAC.."-"..rel..'\r\n';
+									end;
+									if(SmexyMatsDB.profile.AllRealms) then
+										if (SmexyMatsDB.profile.IsColorBlind) then
+											tt:AddLine(CBTwo .. proString,0,0,0,true);
+										else
+											tt:AddLine(SmexyMats.Colors.white .. proString,0,0,0,true);
+										end;
+									else
+										if(rel == RealmName) then								
+											if (SmexyMatsDB.profile.IsColorBlind) then
+												tt:AddLine(CBTwo .. proString,0,0,0,true);
+											else
+												tt:AddLine(SmexyMats.Colors.white .. proString,0,0,0,true);
+											end;
+										end;
+									end;
+									proString = "";
 								end;
-								if not (string.match(proString, SmexyMats:trim(proToon))) then
-									proString = proString .. SmexyMats:trim(proToon)..FAH.."-"..proRealm..'\r\n';
-								end;
 							end;
-							if (SmexyMatsDB.profile.IsColorBlind) then
-								tt:AddLine(CBTwo .. proString,0,0,0,true);
-							else
-								tt:AddLine(SmexyMats.Colors.white .. proString,0,0,0,true);
-							end;
-							proString = "";
 						end;
 					end;
 				end;
 			end;
 		end;
+		tt:AddLine(" ",0,0,0);
 	end;
 end;
 
@@ -435,9 +453,21 @@ function SmexyMats.ModifyItemTooltip(tt, ...)
 end;
 
 function SmexyMats:FormatToolTipString(iID)
-	local zForTTL, zFromTTL, zEP = SmexyMats:SearchDatabase(iID); 
+	local zForTTL, zFromTTL, zEP, zAltTTL = SmexyMats:SearchDatabase(iID); 
 	local zForTTS = "";
 	local zFromTTS = "";
+	local zAltTTS = "";
+	
+	table.sort(zAltTTL);
+	for k, v in pairs(zAltTTL) do 
+		if (zAltTTS == "") then 
+			zAltTTS = SmexyMats:trim(v); 
+		else
+			if not (string.match(zAltTTS, SmexyMats:trim(v))) then
+				zAltTTS = zAltTTS .. ", " .. SmexyMats:trim(v);
+			end;
+		end;
+	end;
 	
 	table.sort(zForTTL);
 	for k, v in pairs(zForTTL) do 
@@ -448,7 +478,7 @@ function SmexyMats:FormatToolTipString(iID)
 				if(SmexyMatsDB.profile.IconsEnabled) then
 					zForTTS = zForTTS .. " " .. SmexyMats:trim(v); 
 				else
-					zForTTS = zForTTS .. ", " .. SmexyMats:trim(v); 
+					zForTTS = zForTTS .. ", " .. SmexyMats:trim(v);
 				end;
 			end;
 		end;
@@ -469,12 +499,13 @@ function SmexyMats:FormatToolTipString(iID)
 		end;
 	end;
 	
-	return zForTTS, zFromTTS, zEP;
+	return zForTTS, zFromTTS, zEP, zAltTTS;
 end;
 
 function SmexyMats:SearchDatabase(iID)
 	local xForTTL = {};
 	local xFromTTL = {};
+	local xAltTTL = {};
 	local zz = nil;
 	
 	if not iID then return; end;
@@ -505,6 +536,7 @@ function SmexyMats:SearchDatabase(iID)
 			--Loops through Reagents
 			for l, w in pairs( SmexyMats.Reagents[x][y] ) do 
 				if (tonumber(iID) == w) then
+					table.insert(xAltTTL, SmexyMats.Profs[x].name);
 					if(SmexyMatsDB.profile.IconsEnabled) then
 						local t = {};
 						t[ #t+1 ] = "|T"
@@ -574,5 +606,6 @@ function SmexyMats:SearchDatabase(iID)
 		end; 
 	end;
 	--Returns Results
-	return xForTTL, xFromTTL, zz;
+	return xForTTL, xFromTTL, zz, xAltTTL;
 end;
+

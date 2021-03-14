@@ -78,23 +78,6 @@ SmexyMats.Colors = {
 	Warrior 	= "|cFFC79C6E",
 };
 
-SmexyMats.ProfessionSkillIDs = {
-	[171]  	= L["Alchemy"],
-	[794]  	= L["Archaeology"],
-	[164]   = L["Blacksmithing"],
-	[185]  	= L["Cooking"],
-	[333]  	= L["Enchanting"],
-	[202]  	= L["Engineering"],
-	[356]  	= L["Fishing"],
-	[182]  	= L["Herbalism"],
-	[773]  	= L["Inscription"],
-	[755]  	= L["Jewelcrafting"],
-	[165]  	= L["Leatherworking"],
-	[186]  	= L["Mining"],
-	[393]  	= L["Skinning"],
-	[197]  	= L["Tailoring"],
-};
-
 SmexyMats.ExPacks = {
 	[-1] = {
 		name = L["Unknown"],
