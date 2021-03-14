@@ -1,0 +1,3 @@
+package-as: SmexyMats
+required-dependencies:
+    - ACE3
