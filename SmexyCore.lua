@@ -22,9 +22,6 @@ function SmexyMats:OnInitialize()
 		SmexyMatsDB.profile = SmexyMats.defaults.profile; 
 	end;
 	
-	if(SmexyMatsDB.profile.TooltipIconSize == nil) then SmexyMatsDB.profile.TooltipIconSize = 20; end;
-	if(SmexyMatsDB.profile.TooltipIconSize == nil) then SmexyMatsDB.profile.TooltipExpackSize = 50; end;
-	
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("SmexyMats", SmexyMats.options);
 	AceConfig:AddToBlizOptions("SmexyMats", "SmexyMats(Retail)");
 	local tooltipMethodHooks = {
