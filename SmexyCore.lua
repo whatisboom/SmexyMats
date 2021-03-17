@@ -101,11 +101,13 @@ function SmexyMats:ChatCommand()
 end;
 
 function SmexyMats:TRADE_SKILL_SHOW()
+
+
 	local RealmName = GetRealmName();
 	local FactionName = UnitFactionGroup("player");
 	local CharacterName = UnitName("player");
-	local ProTree = "ProTree";
-	
+	local ProTree = "ProTree";	
+		
 	local iPrimProA, iPrimProB, iPrimProC, iPrimProD, iPrimProE = GetProfessions();
 	local PrimProA, PrimProB, PrimProC, PrimProD, PrimProE = nil, nil, nil, nil, nil;
 	
@@ -146,6 +148,16 @@ function SmexyMats:TRADE_SKILL_SHOW()
 		if not (SmexyMatsDB[ProTree][PrimProE][FactionName][RealmName]) then SmexyMatsDB[ProTree][PrimProE][FactionName][RealmName] = {}; end;
 		if not (SmexyMatsDB[ProTree][PrimProE][FactionName][RealmName][CharacterName]) then SmexyMatsDB[ProTree][PrimProE][FactionName][RealmName][CharacterName] = {}; end;
 	end;
+	
+	if (SmexyMatsDB.profile.SMMsg == true) then
+		print(SmexyMats.Colors.wowtoken .. "Professions for: ");
+		print(SmexyMats.Colors.wowtoken .. "Character: " .. CharacterName);
+		print(SmexyMats.Colors.wowtoken .. "Faction: " .. FactionName);
+		print(SmexyMats.Colors.wowtoken .. "Realm: " .. RealmName);
+		print(SmexyMats.Colors.wowtoken .. "Professions: " .. PrimProA .. ", " .. PrimProB .. ", " .. PrimProC .. ", " .. PrimProD .. ", " .. PrimProE);
+		print(SmexyMats.Colors.wowtoken .. "Have been cached. ");
+	end;	
+	
 end;
 
 function JustTheTip(tooltip, ...)
@@ -578,7 +590,7 @@ function SmexyMats:SearchDatabase(iID)
 			if(SmexyMatsDB.profile.IconsEnabled) then
 				local t = {};
 				t[ #t+1 ] = "|T"
-				t[ #t+1 ] = SmexyMats.Profs[-1].spelltexture
+				t[ #t+1 ] = SmexyMats.Profs[-2].spelltexture
 				t[ #t+1 ] = ":"
 				t[ #t+1 ] = SmexyMatsDB.profile.TooltipIconSize
 				t[ #t+1 ] = "|t "
@@ -595,7 +607,7 @@ function SmexyMats:SearchDatabase(iID)
 			if(SmexyMatsDB.profile.IconsEnabled) then
 				local t = {};
 				t[ #t+1 ] = "|T"
-				t[ #t+1 ] = SmexyMats.Profs[-1].spelltexture
+				t[ #t+1 ] = SmexyMats.Profs[-3].spelltexture
 				t[ #t+1 ] = ":"
 				t[ #t+1 ] = SmexyMatsDB.profile.TooltipIconSize
 				t[ #t+1 ] = "|t "
